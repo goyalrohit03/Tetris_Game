@@ -85,8 +85,7 @@ tetris/
 ## 📸 Screenshot
 
 
-![Gameplay]
-<img width="447" height="623" alt="Screenshot 2025-07-23 at 12 03 39 AM" src="https://github.com/user-attachments/assets/aaa2aa61-d2fd-424e-9dae-c7ef3d1fc718" />
+<img width="447" height="550" alt="Screenshot 2025-07-23 at 12 03 39 AM" src="https://github.com/user-attachments/assets/aaa2aa61-d2fd-424e-9dae-c7ef3d1fc718" />
 
 
 ---
