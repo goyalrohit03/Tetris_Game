@@ -13,12 +13,15 @@
 
 using namespace std;
 
+// Grid size and window configuration
 const int noRows = 24, noCols = 10;
 const int blockSize = 25;
 const int windowWidth = blockSize * noCols + 200;
 const int windowHeight = blockSize * noRows;
 
 bool justReset = false;
+
+// Each grid cell has a color and a flag indicating whether it's filled
 struct Color
 {
     float r = 1.0f, g = 1.0f, b = 1.0f;
@@ -27,11 +30,13 @@ struct Color
 
 Color grid[noRows][noCols];
 
+// Point structure to represent blocks of shapes
 struct Point
 {
     int x, y;
 };
 
+// Definitions of all 7 Tetriminos with their rotations
 vector<vector<vector<Point>>> tetriminos = {
     {{{0, 0}, {1, 0}, {2, 0}, {3, 0}}, {{1, -1}, {1, 0}, {1, 1}, {1, 2}}},
     {{{0, 0}, {1, 0}, {0, 1}, {1, 1}}},
@@ -46,8 +51,9 @@ Point currPos;
 float colorR, colorG, colorB;
 bool isFalling = true;
 int score = 0;
-deque<int> pieceQueue;
+deque<int> pieceQueue; // Piece bag for 7-bag system
 
+// Clears the entire grid
 void resetGrid()
 {
     for (int i = 0; i < noRows; ++i)
@@ -55,6 +61,7 @@ void resetGrid()
             grid[i][j] = Color();
 }
 
+// Refills the bag with a shuffled set of all 7 Tetriminos
 void refillBag()
 {
     vector<int> bag = {0, 1, 2, 3, 4, 5, 6};
@@ -65,6 +72,7 @@ void refillBag()
         pieceQueue.push_back(i);
 }
 
+// Spawns a new shape from the bag
 void spawnNewShape()
 {
     if (pieceQueue.empty())
@@ -79,9 +87,10 @@ void spawnNewShape()
         colorR = rand() % 2;
         colorG = rand() % 2;
         colorB = rand() % 2;
-    } while (colorR + colorG + colorB != 1);
+    } while (colorR + colorG + colorB != 1);  // Ensure only one color channel is active
 }
 
+// Checks if a shape can be placed at an offset with given rotation
 bool isValidPosition(Point offset, int rot)
 {
     for (auto block : tetriminos[currShape][rot])
@@ -96,6 +105,7 @@ bool isValidPosition(Point offset, int rot)
     return true;
 }
 
+// Places the current piece on the grid and checks for game over
 void settlePiece()
 {
     bool gameOver = false;
@@ -126,6 +136,7 @@ void settlePiece()
     isFalling = false;
 }
 
+// Checks and clears filled lines, increases score
 void clearLines()
 {
     int linesCleared = 0;
@@ -143,12 +154,13 @@ void clearLines()
                     grid[k][j] = grid[k + 1][j];
             for (int j = 0; j < noCols; ++j)
                 grid[noRows - 1][j] = Color();
-            --i;
+            --i; // Recheck same row
         }
     }
     score += linesCleared * 100;
 }
 
+// Draws text at a given position
 void drawText(float x, float y, const char *str, void *font = GLUT_BITMAP_9_BY_15)
 {
     glRasterPos2f(x, y);
@@ -159,6 +171,7 @@ void drawText(float x, float y, const char *str, void *font = GLUT_BITMAP_9_BY_1
     }
 }
 
+// Renders the settled blocks on the grid
 void drawGrid()
 {
     for (int i = 0; i < noRows; ++i)
@@ -177,6 +190,7 @@ void drawGrid()
     }
 }
 
+// Renders the currently falling Tetrimino
 void drawCurrent()
 {
     glColor3f(colorR, colorG, colorB);
@@ -193,6 +207,7 @@ void drawCurrent()
     }
 }
 
+// Called each frame to draw everything
 void display()
 {
     glClear(GL_COLOR_BUFFER_BIT);
@@ -207,6 +222,7 @@ void display()
     glutSwapBuffers();
 }
 
+// Timer function to update game logic periodically
 void timer(int = 0)
 {
     if (isFalling && isValidPosition({0, -1}, currRot))
@@ -254,6 +270,7 @@ void timer(int = 0)
     glutTimerFunc(300, timer, 0);
 }
 
+// Handles arrow key presses for movement and rotation
 void specialKeys(int key, int, int)
 {
     if (!isFalling)
@@ -273,6 +290,7 @@ void specialKeys(int key, int, int)
     glutPostRedisplay();
 }
 
+// Initializes OpenGL and game state
 void init()
 {
     glClearColor(1, 1, 1, 1);
@@ -282,6 +300,7 @@ void init()
     spawnNewShape();
 }
 
+// Entry point
 int main(int argc, char **argv)
 {
     glutInit(&argc, argv);
