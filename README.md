@@ -1,6 +1,6 @@
 # Tetris Game in C++ with OpenGL
 
-🎮 A clean and functional clone of the classic Tetris game, built in **C++11** using **OpenGL** and **GLUT**.
+🎮 A clean and functional clone of the classic Tetris game, built in **C++** using **OpenGL** and **GLUT**.
 
 ---
 
