@@ -101,20 +101,3 @@ You can add a screenshot here:
 * High score persistence
 * Sound effects
 
----
-
-## 🏷️ Tags
-
-`C++` `OpenGL` `Tetris` `Game Development` `Graphics` `Mini Project`
-
----
-
-## 📜 License
-
-This project is free to use and modify. Attribution is appreciated. MIT-style.
-
----
-
-## 💬 Author
-
-Made with ❤️ using OpenGL + C++. Contributions are welcome!
